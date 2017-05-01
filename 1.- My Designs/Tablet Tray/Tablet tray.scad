@@ -15,19 +15,19 @@ holeXFactor = holeYFactor*(trayWidth/trayHeight);
 holeSize = trayHeight/holeYFactor;
 
 //Tray Guides
-guideLength = 25;//Cilinder to Cilinder
+guideLength = 15;//Cilinder to Cilinder
 guideThick = 5;
 guideWidth = 10;//From tray to outside
 
 //Tray Rails
-railThickness=2;
+railThickness=3;
 railTolerance=1;
 railScrewHolderThick=1;
 railScrewHolderSide=railThickness*2+Screw3MDiameter*2;
 
 //HookHolder
 hookHolderDepth= trayHookRadius*2;
-hookHolderHeight= trayHookRadius*2+3;
+hookHolderHeight= trayHookRadius*2+6;
 hookThickness = 1;
 
 
@@ -64,6 +64,7 @@ module _trayStructure(){
             _trayHoles();
         }
         
+        // Tray walls
         difference(){
             hull(){
                 translate([trayWidth/2-trayCornerRadius, trayHeight/2-trayCornerRadius, 0]) cylinder(r=trayCornerRadius, h=trayThick, center=true);
@@ -77,8 +78,15 @@ module _trayStructure(){
                 translate([-(trayWidth/2-trayCornerRadius-trayWallThickness), -(trayHeight/2-trayCornerRadius-trayWallThickness), 0]) cylinder(r=trayCornerRadius, h=trayThick, center=true);
                 translate([trayWidth/2-trayCornerRadius-trayWallThickness, -(trayHeight/2-trayCornerRadius-trayWallThickness), 0]) cylinder(r=trayCornerRadius, h=trayThick, center=true);
             }
+            
+            //Walls hole for cables
+            hull(){
+                translate([-trayWidth/3,trayHeight/2-trayWallThickness/2,trayThick/2+trayBaseThickness+2])rotate([90,0,0])cylinder(h=trayWallThickness, d=trayThick*2, center=true);
+                translate([trayWidth/3,trayHeight/2-trayWallThickness/2,trayThick/2+trayBaseThickness+2])rotate([90,0,0])cylinder(h=trayWallThickness, d=trayThick*2, center=true);
+            }
         }
     }
+    
 }
 
 module _trayHoles(){
@@ -179,13 +187,13 @@ module trayRailLeft(){
                     translate([0,-trayHeight/2,0])cylinder (h=railThickness, d= guideThick+railTolerance+railThickness*2, center=true);
                 }
                 hull(){
-                    translate([0,-(trayHeight/2-guideLength*1.5),0])cylinder (h=railThickness, d=guideThick+railTolerance+railThickness*2, center=true);
+                    translate([0,trayHeight/2-guideLength,0])cylinder (h=railThickness, d=guideThick+railTolerance+railThickness*2, center=true);
                     translate([0,-trayHeight/2,0])cylinder (h=railThickness, d= guideThick+railTolerance+railThickness*2, center=true);
                     translate([20,-trayHeight/2,0])cylinder (h=railThickness, d= guideThick+railTolerance+railThickness*2, center=true);
                 }
             }
             hull(){
-                translate([0,-(trayHeight/2-guideLength*1.5),0])cylinder (h=railThickness, d=guideThick+railTolerance, center=true);
+                translate([0,trayHeight/2-guideLength,0])cylinder (h=railThickness, d=guideThick+railTolerance, center=true);
                 translate([0,-trayHeight/2+5,0])cylinder (h=railThickness, d= guideThick+railTolerance, center=true);
                 translate([15,-trayHeight/2+5,0])cylinder (h=railThickness, d= guideThick+railTolerance, center=true);
             }
@@ -194,7 +202,7 @@ module trayRailLeft(){
                 translate([0,-trayHeight/2+5,0])cylinder (h=railThickness, d= guideThick+railTolerance, center=true);
             }
             hull(){
-                translate([0,-(trayHeight/2-guideLength*1.5),0])cylinder (h=railThickness, d=guideThick+railTolerance, center=true);
+                translate([0,-(trayHeight/2-guideLength*2),0])cylinder (h=railThickness, d=guideThick+railTolerance, center=true);
                 translate([20,-trayHeight/2,0])cylinder (h=railThickness, d= guideThick+railTolerance, center=true);
             }
         }
@@ -223,22 +231,22 @@ module trayRailRight(){
                     translate([0,-trayHeight/2,0])cylinder (h=railThickness, d= guideThick+railTolerance+railThickness*2, center=true);
                 }
                 hull(){
-                    translate([0,-(trayHeight/2-guideLength*1.5),0])cylinder (h=railThickness, d=guideThick+railTolerance+railThickness*2, center=true);
+                    translate([0,trayHeight/2-guideLength,0])cylinder (h=railThickness, d=guideThick+railTolerance+railThickness*2, center=true);
                     translate([0,-trayHeight/2,0])cylinder (h=railThickness, d= guideThick+railTolerance+railThickness*2, center=true);
                     translate([20,-trayHeight/2,0])cylinder (h=railThickness, d= guideThick+railTolerance+railThickness*2, center=true);
                 }
             }
             hull(){
-                translate([0,-(trayHeight/2-guideLength*1.5),0])cylinder (h=railThickness, d=guideThick+railTolerance, center=true);
-                translate([0,-trayHeight/2+5,0])cylinder (h=railThickness, d= guideThick+railTolerance, center=true);
-                translate([15,-trayHeight/2+5,0])cylinder (h=railThickness, d= guideThick+railTolerance, center=true);
+                translate([0,trayHeight/2-guideLength,0])cylinder (h=railThickness, d=guideThick+railTolerance, center=true);
+                translate([0,-trayHeight/2+8,0])cylinder (h=railThickness, d= guideThick+railTolerance, center=true);
+                translate([15,-trayHeight/2+8,0])cylinder (h=railThickness, d= guideThick+railTolerance, center=true);
             }
             hull(){
                 translate([0,trayHeight/2,0])cylinder (h=railThickness, d=guideThick+railTolerance, center=true);
-                translate([0,-trayHeight/2+5,0])cylinder (h=railThickness, d= guideThick+railTolerance, center=true);
+                translate([0,-trayHeight/2+10,0])cylinder (h=railThickness, d= guideThick+railTolerance, center=true);
             }
             hull(){
-                translate([0,-(trayHeight/2-guideLength*1.5),0])cylinder (h=railThickness, d=guideThick+railTolerance, center=true);
+                translate([0,-(trayHeight/2-guideLength*2),0])cylinder (h=railThickness, d=guideThick+railTolerance, center=true);
                 translate([20,-trayHeight/2,0])cylinder (h=railThickness, d= guideThick+railTolerance, center=true);
             }
         }
@@ -246,16 +254,38 @@ module trayRailRight(){
 }
 
 
+
+/*
+ * Close tray
+ *
+*/
 tray();
-translate([0,-trayHeight/2-10,5]){
+
+/*
+ * Open tray
+ *
+translate([0,-trayHeight+guideLength+21,-57]){
+    rotate([35,0,0]){
+        tray();
+    }
+}
+ */
+
+translate([0,-trayHeight/2-10,trayThick/2-trayHookRadius/2+0.5]){
     hookHolder();
 }
 
 translate([-trayWidth/2-guideWidth/2,0,trayThick/2-guideThick/2]){
     trayRailLeft();
 }
-
 translate([trayWidth/2+guideWidth/2,0,trayThick/2-guideThick/2]){
     trayRailRight();
 }
 
+
+/*
+ * Table
+ *
+translate([0,0,18])
+cube([300, 220, 10], center=true);
+ */
