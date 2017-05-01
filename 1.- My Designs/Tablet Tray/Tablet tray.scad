@@ -1,10 +1,13 @@
-trayWidth = 300;
-trayHeight = 200;
+trayWidth = 255;
+trayHeight = 175;
 trayThick = 15;
 trayWallThickness = 2;
 trayBaseThickness = 2;
 trayCornerRadius = 4;
 trayHookRadius = 4;
+
+//screws
+Screw3MDiameter = 3;
 
 //Tray Holes
 holeYFactor = 6;
@@ -19,14 +22,14 @@ guideWidth = 10;//From tray to outside
 //Tray Rails
 railThickness=2;
 railTolerance=1;
+railScrewHolderThick=1;
+railScrewHolderSide=railThickness*2+Screw3MDiameter*2;
 
 //HookHolder
 hookHolderDepth= trayHookRadius*2;
 hookHolderHeight= trayHookRadius*2+3;
 hookThickness = 1;
 
-//screws
-Screw3MDiameter = 3;
 
 module tray () {
     union(){
@@ -154,7 +157,64 @@ module hookHolder(){
  * Tray Rail
  *
  */
-module trayRail(){
+module trayRailLeft(){
+    $fn=40;
+    translate([-railScrewHolderSide/2,trayHeight/2-guideThick-railThickness,guideThick/2+railTolerance+railThickness-railScrewHolderThick]){
+        difference(){
+            cube([railScrewHolderSide,railScrewHolderSide,railScrewHolderThick], center=true);
+            cylinder(h=railScrewHolderThick, d=Screw3MDiameter, center=true);
+        }
+    }
+    translate([-railScrewHolderSide/2,-(trayHeight/2-guideThick-railThickness),guideThick/2+railTolerance+railThickness-railScrewHolderThick]){
+        difference(){
+            cube([railScrewHolderSide,railScrewHolderSide,railScrewHolderThick], center=true);
+            cylinder(h=railScrewHolderThick, d=Screw3MDiameter, center=true);
+        }
+    }
+    rotate([0, 90, 0]){
+        difference(){
+            union(){
+                hull(){
+                    translate([0,trayHeight/2,0])cylinder (h=railThickness, d=guideThick+railTolerance+railThickness*2, center=true);
+                    translate([0,-trayHeight/2,0])cylinder (h=railThickness, d= guideThick+railTolerance+railThickness*2, center=true);
+                }
+                hull(){
+                    translate([0,-(trayHeight/2-guideLength*1.5),0])cylinder (h=railThickness, d=guideThick+railTolerance+railThickness*2, center=true);
+                    translate([0,-trayHeight/2,0])cylinder (h=railThickness, d= guideThick+railTolerance+railThickness*2, center=true);
+                    translate([20,-trayHeight/2,0])cylinder (h=railThickness, d= guideThick+railTolerance+railThickness*2, center=true);
+                }
+            }
+            hull(){
+                translate([0,-(trayHeight/2-guideLength*1.5),0])cylinder (h=railThickness, d=guideThick+railTolerance, center=true);
+                translate([0,-trayHeight/2+5,0])cylinder (h=railThickness, d= guideThick+railTolerance, center=true);
+                translate([15,-trayHeight/2+5,0])cylinder (h=railThickness, d= guideThick+railTolerance, center=true);
+            }
+            hull(){
+                translate([0,trayHeight/2,0])cylinder (h=railThickness, d=guideThick+railTolerance, center=true);
+                translate([0,-trayHeight/2+5,0])cylinder (h=railThickness, d= guideThick+railTolerance, center=true);
+            }
+            hull(){
+                translate([0,-(trayHeight/2-guideLength*1.5),0])cylinder (h=railThickness, d=guideThick+railTolerance, center=true);
+                translate([20,-trayHeight/2,0])cylinder (h=railThickness, d= guideThick+railTolerance, center=true);
+            }
+        }
+    }
+}
+
+module trayRailRight(){
+    $fn=40;
+    translate([railScrewHolderSide/2,trayHeight/2-guideThick-railThickness,guideThick/2+railTolerance+railThickness-railScrewHolderThick]){
+        difference(){
+            cube([railScrewHolderSide,railScrewHolderSide,railScrewHolderThick], center=true);
+            cylinder(h=railScrewHolderThick, d=Screw3MDiameter, center=true);
+        }
+    }
+    translate([railScrewHolderSide/2,-(trayHeight/2-guideThick-railThickness),guideThick/2+railTolerance+railThickness-railScrewHolderThick]){
+        difference(){
+            cube([railScrewHolderSide,railScrewHolderSide,railScrewHolderThick], center=true);
+            cylinder(h=railScrewHolderThick, d=Screw3MDiameter, center=true);
+        }
+    }
     rotate([0, 90, 0]){
         difference(){
             union(){
@@ -191,7 +251,11 @@ translate([0,-trayHeight/2-10,5]){
     hookHolder();
 }
 
-translate([-200,0,0]){
-    trayRail();
+translate([-trayWidth/2-guideWidth/2,0,trayThick/2-guideThick/2]){
+    trayRailLeft();
+}
+
+translate([trayWidth/2+guideWidth/2,0,trayThick/2-guideThick/2]){
+    trayRailRight();
 }
 
