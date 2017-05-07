@@ -1,7 +1,7 @@
 cloudThick = 4;
 cloudHeight = 8;
 cloudLong = 16;
-textThick = 2;
+textThick = 0.8;
 textSize = 4;
 logoText = "TAP4S";
 
